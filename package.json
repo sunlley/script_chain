@@ -1,0 +1,52 @@
+{
+  "name": "chain_webpack5",
+  "version": "1.0.0",
+  "description": "",
+  "main": "start.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "babel-loader": "^8.2.2",
+    "remove-console-webpack-plugin": "^0.2.0",
+    "webpack": "^5.58.2",
+    "webpack-cli": "^4.9.1"
+  },
+  "dependencies": {
+    "@metamask/eth-sig-util": "^4.0.1",
+    "@solana/spl-token": "^0.1.8",
+    "@solana/web3.js": "^1.31.0",
+    "@terra-money/terra.js": "^3.0.11",
+    "@terra-money/terra.proto": "^0.1.7",
+    "bip32": "^3.0.1",
+    "bip39": "^3.0.4",
+    "bitcore-lib": "^8.25.25",
+    "bitcore-mnemonic": "^8.25.25",
+    "buffer": "^6.0.3",
+    "buffer-layout": "^1.2.2",
+    "caver-js": "^1.6.4",
+    "crypto-browserify": "^3.12.0",
+    "crypto-js": "^4.1.1",
+    "decimal.js": "^10.3.1",
+    "ed25519-hd-key": "^1.2.0",
+    "ethers": "^5.4.7",
+    "events": "^3.3.0",
+    "https-browserify": "^1.0.0",
+    "isutf8": "^4.0.0",
+    "os-browserify": "^0.3.0",
+    "process": "^0.11.10",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "tiny-secp256k1": "^2.1.2",
+    "tronweb": "^4.1.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "urlencode": "^1.1.0",
+    "web3-utils": "^1.6.1"
+  },
+  "browser": {}
+}
