@@ -7,12 +7,13 @@ module.exports = {
     mode: 'development',
     devtool: "source-map",
     entry: {
-        // bundle: './signer/main.js',
-        inject: './inject/bridge.js',
+        core: './signer/main.js',
+        // inject: './inject/main.js',
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'out'),
+        // path: path.resolve(__dirname, 'out'),
+        path: "/Users/kayo/Projects/befi_sdk/befi_core/src/main/assets/files",
     },
     optimization: {
         // splitChunks: {

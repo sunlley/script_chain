@@ -151,8 +151,9 @@ class Provider extends EventEmitter{
             isDebug
             address
      */
-    constructor(config) {
+    constructor(target,config) {
         super();
+        this.target = target;
         config.chainId = new Decimal(config.chainId).toHex();
         this.idMapping = new IdMapping();
         this.callbacks=new Map();
@@ -167,13 +168,15 @@ class Provider extends EventEmitter{
 
     setConfig(config) {
         this.setAddress(config.address);
-
+        this.setChain(config);
+        this.isDebug = !!config.isDebug;
+    }
+    setChain(config){
         this.networkVersion = "" + config.chainId;
         this.chainId = new Decimal(config.chainId).toHex();
         this.netVersion = new Decimal(config.chainId).toNumber();
         this.networkVersion = new Decimal(config.chainId).toNumber();
         this.rpc = new RPCServer(config.rpcUrl);
-        this.isDebug = !!config.isDebug;
     }
 
     setAddress(address) {
@@ -184,9 +187,9 @@ class Provider extends EventEmitter{
         this.accounts =[this.address];
         this.ready = !!address;
         try {
-            if (window && window.frames) {
-                for (let i = 0; i < window.frames.length; i++) {
-                    const frame = window.frames[i];
+            if (this.target && this.target.frames) {
+                for (let i = 0; i < this.target.frames.length; i++) {
+                    const frame = this.target.frames[i];
                     if (frame.ethereum && frame.ethereum.isBeFi) {
                         frame.ethereum.address = lowerAddress;
                         frame.ethereum.ready = !!address;
@@ -244,8 +247,8 @@ class Provider extends EventEmitter{
         } else {
             console.log(`callback id: ${id} not found`);
             // check if it's iframe callback
-            for (let i = 0; i < window.frames.length; i++) {
-                const frame = window.frames[i];
+            for (let i = 0; i < this.target.frames.length; i++) {
+                const frame = this.target.frames[i];
                 try {
                     if (frame.ethereum.callbacks.has(id)) {
                         frame.ethereum.sendResponse(id, result);
@@ -274,11 +277,11 @@ class Provider extends EventEmitter{
                 object: data,
             };
             try {
-                if (window.trustwallet.postMessage) {
-                    window.trustwallet.postMessage(object);
+                if (this.target.trustwallet.postMessage) {
+                    this.target.trustwallet.postMessage(object);
                 } else {
                     // old clients
-                    window.webkit.messageHandlers[handler].postMessage(object);
+                    this.target.webkit.messageHandlers[handler].postMessage(object);
                 }
             } catch (e) {
             }
@@ -287,9 +290,6 @@ class Provider extends EventEmitter{
             this.sendError(id, new RpcError(4100, "provider is not ready"));
         }
     }
-
-
-
 
     send(payload) {
         if (this.isDebug) {
@@ -345,7 +345,6 @@ class Provider extends EventEmitter{
                 }
             });
             this.wrapResults.set(payload.id, wrapResult);
-
             switch (payload.method) {
                 case "eth_accounts":
                     return this.sendResponse(payload.id, this.eth_accounts());
@@ -463,17 +462,14 @@ class Provider extends EventEmitter{
         this.postMessage("signTransaction", payload.id, payload.params[0]);
     }
 
-    eth_requestAccounts(payload) {
-        this.postMessage("requestAccounts", payload.id, {});
-    }
-
     wallet_addEthereumChain(payload) {
         this.postMessage("addEthereumChain", payload.id, payload.params[0]);
     }
 
     wallet_switchEthereumChain(payload) {
-        this.postMessage("switchEthereumChain", payload.id, payload.params[0]);
+        this.postMessage("switchEthereumChain", payload.id, payload.params);
     }
+
 
 }
 

@@ -3,8 +3,26 @@ const Web3Utils = require("web3-utils");
 
 class TEMP{
 
-    constructor(name){
+    constructor(name,server,config){
         this.name = name;
+        this.server =server;
+        this.debug=false;
+        this.updateConfig(config)
+    }
+    updateConfig(config){
+        if (config){
+            this.appid = config.appid?config.appid:this.appid;
+            this.appkey = config.appkey?config.appkey:this.appkey;
+            this.uuid = config.uuid?config.uuid:this.uuid;
+            this.platform = config.platform?config.platform:this.platform;
+            this.client_c = config.client_c?config.client_c:this.client_c;
+            this.resolution = config.resolution?config.resolution:this.resolution;
+            this.source = config.source?config.source:this.source;
+            this.debug = config.debug?config.debug:this.debug;
+            this.language = config.language?config.language:this.language;
+            this.currency = config.currency?config.currency:this.currency;
+            this.cs = config.cs?config.cs:this.cs;
+        }
     }
 
     async generateAccount(key){
